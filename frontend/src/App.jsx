@@ -7,7 +7,7 @@ import Feed from "./components/Feed";
 
 function App() {
   return (
-    <main className=' bg-slate-500 grid grid-cols-3 lg:grid-cols-4 '>
+    <main className='bg-slate-500 grid grid-cols-3 lg:grid-cols-4 '>
       <LeftPanel />
       <Feed />
       <RightPanel className='hidden' />
