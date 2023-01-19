@@ -2,7 +2,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 
 const Post = () => {
   return (
-    <div className='flex px-5 gap-3 py-3 border-b border-y-zinc-800 '>
+    <div className='flex px-5 gap-3 py-3 border-t border-y-zinc-800 '>
       <img
         className='h-20 rounded-full'
         src='https://picsum.photos/300/300'

@@ -8,7 +8,7 @@ const Feed = () => {
         <h2 className='font-bold text-4xl pl-5 pt-2'>feed </h2>
       </div>
       <ShareInput />
-      <section className='mt-12 flex flex-col  border-t border-y-zinc-800'>
+      <section className='mt-12 flex flex-col'>
         <Post />
         <Post />
         <Post />
