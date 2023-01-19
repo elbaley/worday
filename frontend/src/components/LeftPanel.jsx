@@ -7,7 +7,7 @@ const LeftPanel = () => {
   return (
     <aside className='sticky left-0 top-0 h-screen bg-black text-white mx-7 pt-5'>
       <svg
-        className='cursor-pointer p-2 mb-3 flex justify-center  justify-center   rounded-full  hover:bg-sky-800 hover:bg-opacity-20  ease-in-out duration-300'
+        className='cursor-pointer p-2 mb-3 flex  justify-center   rounded-full  hover:bg-sky-800 hover:bg-opacity-20  ease-in-out duration-300'
         fill='white'
         width='60px'
         height='60px'

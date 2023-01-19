@@ -23,7 +23,6 @@ const ProfileMenu = ({ setShowMenu }) => {
         height='20px'
         width='20px'
         version='1.1'
-        id='Capa_1'
         xmlns='http://www.w3.org/2000/svg'
         xmlns:xlink='http://www.w3.org/1999/xlink'
         viewBox='0 0 32.055 32.055'
