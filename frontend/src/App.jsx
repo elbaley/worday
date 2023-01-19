@@ -1,22 +1,17 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
+import LeftPanel from "./components/LeftPanel";
+import RightPanel from "./components/RightPanel";
+import Feed from "./components/Feed";
 
 function App() {
   return (
-    <div className='App'>
-      <div>
-        <a href='https://vitejs.dev' target='_blank'>
-          <img src='/vite.svg' className='logo' alt='Vite logo' />
-        </a>
-        <a href='https://reactjs.org' target='_blank'>
-          <img src={reactLogo} className='logo react' alt='React logo' />
-        </a>
-      </div>
-      <h1>worday</h1>
-
-      <p className='read-the-docs'>hello world</p>
-    </div>
+    <main className=' bg-slate-500 grid grid-cols-3 lg:grid-cols-4 '>
+      <LeftPanel />
+      <Feed />
+      <RightPanel className='hidden' />
+    </main>
   );
 }
 
