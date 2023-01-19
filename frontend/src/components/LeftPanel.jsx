@@ -1,9 +1,7 @@
-import { useState } from "react";
 import MenuButton from "./MenuButton";
 import ProfileMenu from "./ProfileMenu";
 
 const LeftPanel = () => {
-  const [showMenu, setShowMenu] = useState(true);
   return (
     <aside className='sticky left-0 top-0 h-screen bg-black text-white mx-7 pt-5'>
       <svg
@@ -22,19 +20,7 @@ const LeftPanel = () => {
         <MenuButton buttonName={"likes"} />
         <MenuButton buttonName={"share"} />
       </div>
-      <ProfileMenu setShowMenu={setShowMenu} />
-      <div
-        className={`${
-          showMenu ? "visible" : "invisible"
-        } ease-out duration-800 z-10 pb-3 font-bold shadow-xl  rounded-md border border-zinc-800   w-full mb-5 absolute bottom-24`}
-      >
-        <span className='cursor-pointer text-xl block py-2 px-2 hover:bg-slate-400 hover:bg-opacity-10'>
-          profile
-        </span>
-        <span className='cursor-pointer text-xl block py-2 px-2 hover:bg-slate-400 hover:bg-opacity-10'>
-          logout
-        </span>
-      </div>
+      <ProfileMenu />
     </aside>
   );
 };
