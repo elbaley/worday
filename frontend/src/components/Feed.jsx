@@ -1,22 +1,27 @@
+import Post from "./Post";
+import ShareInput from "./ShareInput";
+
 const Feed = () => {
   return (
-    <div className=' border-x border-x-zinc-800  col-span-2 text-white '>
-      <h2 className='text-4xl pl-5 pt-3'>feed </h2>
-      <div className='flex px-5 items-center gap-3 my-5 relative border-y border-y-zinc-800  py-3'>
-        <img
-          className='rounded-full h-20 hover:opacity-80 '
-          src='https://picsum.photos/300/300'
-          alt=''
-        />
-        <input
-          className='flex-1 w-full bg-black text-2xl outline-0 border-transparent '
-          type='text'
-          placeholder="today's word?"
-        />
-        <button className='absolute -bottom-10 bg-sky-500 hover:bg-sky-500 hover:bg-opacity-90 px-5 rounded-md text-lg text-center right-3'>
-          share
-        </button>
+    <div className='border-x border-x-zinc-800  col-span-2 text-white '>
+      <div className='border-b border-y-zinc-800  sticky top-0 z-10 bg-black bg-opacity-60 py-5 backdrop-blur-md	'>
+        <h2 className='font-bold text-4xl pl-5 pt-2'>feed </h2>
       </div>
+      <ShareInput />
+      <section className='mt-12 flex flex-col  border-t border-y-zinc-800'>
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+      </section>
     </div>
   );
 };
