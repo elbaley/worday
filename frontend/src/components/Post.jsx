@@ -8,7 +8,7 @@ const Post = () => {
       <img
         className={`select-none h-20 w-20 ${
           imgLoaded ? "" : "animate-pulse"
-        } bg-gray-700 bg-opacity-30 rounded-full`}
+        } bg-gray-700 bg-opacity-20 rounded-full`}
         src='https://picsum.photos/300/300'
         alt=''
         onLoad={() => {
