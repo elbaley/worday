@@ -23,8 +23,7 @@ const Feed = () => {
 
       <section className='mt-12 flex flex-col'>
         {posts.map((post) => {
-          console.log(post);
-          return <Post />;
+          return <Post post={post} />;
         })}
       </section>
     </div>
