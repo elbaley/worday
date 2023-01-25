@@ -1,36 +1,28 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const { Client } = require("pg");
-
-// DB client
-const client = new Client({
-  host: "127.0.0.1",
-  port: 5432,
-  user: "postgres",
-  password: "",
-  database: "wordaydb",
-});
-client.connect().catch((err) => {
-  console.log("veritabanina baglanilamadii");
-});
-
-// client.query("SELECT * FROM posts", (err, res) => {
-//   if (err) throw err;
-//   console.log(res.rows);
-//   client.end();
-// });
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 app.use(cors());
 
 // posts
-app.get("/posts", (req, res) => {
-  // run query
-  client.query("SELECT * FROM posts", (err, resp) => {
-    if (err) throw err;
-    res.json({
-      posts: resp.rows,
-    });
+app.get("/posts", async (req, res) => {
+  // postlari getir
+  const posts = await prisma.posts.findMany();
+  res.json({
+    posts: posts,
+  });
+});
+
+// single post detail
+app.get("/posts/:id", async (req, res) => {
+  const postId = parseInt(req.params.id);
+  const post = await prisma.posts.findFirst({
+    where: { post_id: postId },
+  });
+  res.json({
+    posts: post,
   });
 });
 
