@@ -9,7 +9,7 @@ const Post = ({ post }) => {
         className={`select-none h-20 w-20 ${
           imgLoaded ? "" : "animate-pulse"
         } bg-gray-700 bg-opacity-20 rounded-full`}
-        src='https://picsum.photos/300/300'
+        src={post.author.profileImg}
         alt=''
         onLoad={() => {
           setImageLoaded(true);
@@ -17,11 +17,11 @@ const Post = ({ post }) => {
       />
       <div className='flex flex-col'>
         <div className='info'>
-          <span className='font-bold text-md pr-1'>{post.username}</span>
-          <span className='text-zinc-500 pr-1'>@{post.username}</span>
-          <span className='text-zinc-500'>{post.minute}m</span>
+          <span className='font-bold text-md pr-1'>{post.author.name}</span>
+          <span className='text-zinc-500 pr-1'>@{post.author.username}</span>
+          <span className='text-zinc-500'>{post.pubDate}</span>
         </div>
-        <span className='text-xl'>{post.word}</span>
+        <span className='text-xl'>{post.postContent}</span>
         <button className='p-1 hover:bg-slate-400 hover:bg-opacity-40 rounded-full w-8 h-8'>
           <AiOutlineHeart size={24} />
         </button>
