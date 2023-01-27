@@ -10,6 +10,9 @@ app.use(cors());
 app.get("/posts", async (req, res) => {
   // postlari getir
   const posts = await prisma.post.findMany({
+    orderBy: {
+      pubDate: "desc",
+    },
     include: {
       author: {
         select: {
