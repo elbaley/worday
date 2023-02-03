@@ -3,9 +3,6 @@ import { AiOutlineHeart } from "react-icons/ai";
 import dayjs from "../utils/dayjs";
 
 const Post = ({ post }) => {
-  if (post.postContent === "roblox") {
-    console.log(post.pubDate, "selam");
-  }
   const date = dayjs(post.pubDate);
 
   const [imgLoaded, setImageLoaded] = useState(false);

@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 const ProfileMenu = () => {
+  const { user, logout } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
   return (
     <>
@@ -12,14 +14,10 @@ const ProfileMenu = () => {
         }}
         className='select-none flex rounded-full gap-5 p-4 items-center cursor-pointer hover:bg-opacity-10 hover:bg-sky-300  w-full  absolute bottom-8'
       >
-        <img
-          className='h-14 rounded-full'
-          src='https://picsum.photos/300/300'
-          alt=''
-        />
+        <img className='h-14 rounded-full' src={user.profileImg} alt='' />
         <div className='hidden lg:flex  flex-col '>
-          <span className='font-bold text-xl'>first last</span>
-          <span className='text-gray-500 '>@username</span>
+          <span className='font-bold text-xl'>{user.name}</span>
+          <span className='text-gray-500 '>@{user.username}</span>
         </div>
         <svg
           className='hidden xl:block absolute right-10'
@@ -50,7 +48,12 @@ const ProfileMenu = () => {
         <span className='cursor-pointer text-xl block py-2 px-2 hover:bg-slate-400 hover:bg-opacity-10'>
           profile
         </span>
-        <span className='cursor-pointer text-xl block py-2 px-2 hover:bg-slate-400 hover:bg-opacity-10'>
+        <span
+          onClick={() => {
+            logout();
+          }}
+          className='cursor-pointer text-xl block py-2 px-2 hover:bg-slate-400 hover:bg-opacity-10'
+        >
           logout
         </span>
       </div>{" "}
