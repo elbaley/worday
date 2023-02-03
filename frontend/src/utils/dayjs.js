@@ -7,7 +7,6 @@ dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 dayjs.extend(timezone);
 dayjs.extend(utc);
-
 // dayjs.tz.guess();
 const localeList = dayjs.Ls;
 dayjs.updateLocale("en", {
