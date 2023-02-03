@@ -7,11 +7,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useLocalStorage("user", null);
 
   // call this function when you want to authenticate the user
-  const login = async (data, cb) => {
-    console.log("login fonksiyonu calisiyor..");
-    console.log("cb", cb);
+  const login = async (data) => {
     setUser(data);
-    cb("/feed");
   };
 
   // call this function to sign out logged in user

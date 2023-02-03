@@ -7,7 +7,6 @@ const Feed = () => {
   const [posts, setPosts] = useState([]);
   // Fetch posts
   useEffect(() => {
-    console.log("feed componenti icindeki efekt calisti");
     fetch("http://localhost:4001/posts", { credentials: "include" })
       .then((res) => res.json())
       .then((data) => setPosts(data.posts))
@@ -23,7 +22,6 @@ const Feed = () => {
 
       <section className='mt-12 flex flex-col'>
         {posts.map((post) => {
-          console.log(post);
           return <Post key={post.post_id} post={post} />;
         })}
       </section>
