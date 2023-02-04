@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import wordayLogo from "../assets/wordayLogo.svg";
+import { Link } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -37,44 +39,50 @@ const Login = () => {
     }
   };
   return (
-    <main className='flex flex-col justify-center items-center h-screen text-lg'>
-      <h2 className='text-2xl font-bold pb-5'>LOGIN</h2>
-      <form onSubmit={handleLoginSubmit} className='flex flex-col gap-4'>
-        <label htmlFor='name'>
-          username
+    <main className='flex bg-zinc-900 bg-opacity-80 flex-col justify-center items-center h-screen text-lg'>
+      <section className='bg-black w-[500px] h-[400px] p-5 rounded-2xl flex flex-col items-center'>
+        <img className='' src={wordayLogo} alt='' />
+        <h2 className='text-2xl font-bold pb-5'>sign in to worday</h2>
+        <form
+          onSubmit={handleLoginSubmit}
+          className='flex flex-col gap-4 h-full'
+        >
           <input
-            className='bg-black  text-white border-zinc-800 border border-3 rounded-lg ml-2'
+            className='focus:outline outline-offset-2 focus:outline-blue-500 bg-black p-2 text-white border-zinc-800 border border-3 rounded-lg ml-2'
             type='text'
             name='username'
+            placeholder='username'
             value={username}
             onChange={(e) => {
               setUsername(e.target.value);
             }}
           />
-        </label>
-        <label htmlFor='password'>
-          password
+
           <input
             onChange={(e) => {
               setPassword(e.target.value);
             }}
             value={password}
-            className='bg-black  text-white border-zinc-800 border border-3 rounded-lg ml-2'
+            placeholder='password'
+            className='focus:outline outline-offset-2 focus:outline-blue-500 bg-black p-2 text-white border-zinc-800 border border-3 rounded-lg ml-2'
             type='password'
             name='password'
           />
-        </label>
 
-        <button
-          type='submit'
-          className='border border-slate-800 rounded-lg text-xl bg-blue-500 '
-        >
-          login
-        </button>
-      </form>
-      {/* Silinecek */}
-      <a href='/feed'>Anasayfaya git</a>
-      <Link to={"/feed"}> Anasayfaya hizli git</Link>
+          <button
+            type='submit'
+            className='border border-slate-800 hover:bg-opacity-80 rounded-full text-xl bg-white text-black '
+          >
+            login
+          </button>
+          <p className='text-zinc-500 mt-auto text-sm'>
+            Don't have an account?{" "}
+            <Link className='text-sky-500' to='/register'>
+              sign up
+            </Link>
+          </p>
+        </form>
+      </section>
     </main>
   );
 };

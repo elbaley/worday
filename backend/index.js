@@ -5,7 +5,6 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const { v4: uuidv4 } = require("uuid");
 const Redis = require("ioredis");
 const session = require("express-session");
 const { COOKIE_NAME } = require("./constants");
@@ -38,14 +37,9 @@ app.use(
   })
 );
 
-console.log(redisClient.status);
-
 // posts
 app.get("/posts", async (req, res) => {
-  console.log(redisClient.status);
-  console.log(`Current session: ${JSON.stringify(req.session)}`);
-
-  // postlari getir
+  // fetch posts from db
   const posts = await prisma.post.findMany({
     orderBy: {
       pubDate: "desc",
@@ -120,7 +114,6 @@ app.post("/login", async (req, res) => {
       error: "No such user!",
     });
   }
-  console.log(user);
   // check password
   if (user.password !== password) {
     return res.json({
@@ -128,11 +121,68 @@ app.post("/login", async (req, res) => {
     });
   }
 
+  // set session
   req.session.userId = user.user_id;
-  console.log("req session after setting id");
-  console.log(req.session);
   res.json({
     user,
+  });
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (!err) {
+      console.log("User logged out.");
+      res.clearCookie(COOKIE_NAME);
+      res.json({
+        success: true,
+      });
+    } else {
+      console.log(err);
+      res.json({
+        success: true,
+      });
+    }
+  });
+});
+
+// register
+app.post("/register", async (req, res) => {
+  const { userValues } = req.body;
+  const {
+    name,
+    username,
+    password,
+    birthDate,
+    profileImg = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/754.jpg",
+  } = userValues;
+  //check values
+  if (!name || !username || !birthDate || !password) {
+    res.json({
+      message: "insufficent data",
+    });
+    return;
+  }
+  const user = await prisma.user.create({
+    data: {
+      birthDate: new Date(birthDate),
+      username,
+      name,
+      profileImg,
+      password,
+    },
+  });
+
+  console.log("user created!");
+  console.log(user);
+  res.json({
+    user,
+  });
+});
+
+app.get("/me", async (req, res) => {
+  console.log(`⚠️ Request to :/me  by userId:${req.session.userId}`);
+  res.json({
+    userId: req.session.userId || null,
   });
 });
 
