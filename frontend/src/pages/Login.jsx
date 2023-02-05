@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import wordayLogo from "../assets/wordayLogo.svg";
 import { Link } from "react-router-dom";
+import InputField from "../components/InputField";
 const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -45,33 +46,25 @@ const Login = () => {
         <h2 className='text-2xl font-bold pb-5'>sign in to worday</h2>
         <form
           onSubmit={handleLoginSubmit}
-          className='flex flex-col gap-4 h-full'
+          className='flex flex-col gap-3 h-full'
         >
-          <input
-            className='focus:outline outline-offset-2 focus:outline-blue-500 bg-black p-2 text-white border-zinc-800 border border-3 rounded-lg ml-2'
-            type='text'
-            name='username'
-            placeholder='username'
+          <InputField
+            name={"username"}
             value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
+            onChange={(e) => setUsername(e.target.value)}
           />
-
-          <input
+          <InputField
+            name={"password"}
+            value={password}
+            type={"password"}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-            value={password}
-            placeholder='password'
-            className='focus:outline outline-offset-2 focus:outline-blue-500 bg-black p-2 text-white border-zinc-800 border border-3 rounded-lg ml-2'
-            type='password'
-            name='password'
           />
 
           <button
             type='submit'
-            className='border border-slate-800 hover:bg-opacity-80 rounded-full text-xl bg-white text-black '
+            className='border mt-2 border-slate-800 hover:bg-opacity-80 rounded-full text-xl bg-white text-black '
           >
             login
           </button>

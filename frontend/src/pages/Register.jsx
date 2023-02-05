@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import wordayLogo from "../assets/wordayLogo.svg";
 import { Link } from "react-router-dom";
+import InputField from "../components/InputField";
 const Register = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -47,84 +48,55 @@ const Register = () => {
           onSubmit={handleLoginSubmit}
           className='flex flex-col gap-5 h-full'
         >
-          <div class='relative pt-2'>
-            <label
-              for='username'
-              class='absolute font-bold left-0 -top-3.5 text-white text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm'
-            >
-              name
-            </label>
-            <input
-              id='name'
-              name='name'
-              type='text'
-              value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-              class='w-full h-10 bg-black text-white placeholder-transparent border border-gray-500 peer focus:outline-none focus:border-sky-500 rounded-sm px-2'
-              placeholder='username'
-            />
-          </div>
-          <div class='relative pt-2'>
-            <label
-              for='username'
-              class='absolute font-bold left-0 -top-3.5 text-white text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm'
-            >
-              username
-            </label>
-            <input
-              id='username'
-              name='name'
-              type='text'
-              value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-              class='w-full h-10 bg-black text-white placeholder-transparent border border-gray-500 peer focus:outline-none focus:border-sky-500 rounded-sm px-2'
-              placeholder='username'
-            />
-          </div>
+          <InputField
+            name={"name"}
+            label
+            labelText={"name"}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            value={password}
+          />
 
-          <div class='relative pt-2'>
-            <label
-              for='password'
-              class='absolute font-bold left-0 -top-3.5 text-white text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm'
-            >
-              password
-            </label>
-            <input
-              id='password'
-              name='name'
-              type='password'
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              class='w-full h-10 bg-black text-white placeholder-transparent border border-gray-500 peer focus:outline-none focus:border-sky-500 rounded-sm px-2'
-              placeholder='username'
-            />
-          </div>
-
-          <div class='relative pt-2'>
-            <label
-              for='password'
-              class='absolute font-bold left-0 -top-3.5 text-white text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm '
-            >
-              date of birth
-            </label>
-            <input
-              id='birthdate'
-              name='name'
-              type='date'
-              //   value={password}
-              //   onChange={(e) => {
-              //     setPassword(e.target.value);
-              //   }}
-              class='w-full h-10 bg-black text-white placeholder-transparent border border-gray-500 peer focus:outline-none focus:border-sky-500 rounded-sm px-2'
-              placeholder='username'
-            />
-          </div>
+          <InputField
+            name={"username"}
+            label
+            labelText={"username"}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            value={password}
+          />
+          <InputField
+            name={"password"}
+            label
+            labelText={"password"}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            value={password}
+            type={"password"}
+          />
+          <InputField
+            name={"birthDate"}
+            label
+            labelText={"date of birth"}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            value={password}
+            type={"date"}
+          />
+          <InputField
+            name={"profileImg"}
+            label
+            labelText={"profile picture"}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            value={password}
+            type={"file"}
+          />
 
           <button
             type='submit'

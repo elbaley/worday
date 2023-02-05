@@ -10,7 +10,7 @@ const session = require("express-session");
 const { COOKIE_NAME } = require("./constants");
 const RedisStore = require("connect-redis")(session);
 const redisClient = new Redis();
-
+const postRoutes = require("./routes/posts");
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -37,38 +37,7 @@ app.use(
   })
 );
 
-// posts
-app.get("/posts", async (req, res) => {
-  // fetch posts from db
-  const posts = await prisma.post.findMany({
-    orderBy: {
-      pubDate: "desc",
-    },
-    include: {
-      author: {
-        select: {
-          username: true,
-          name: true,
-          profileImg: true,
-        },
-      },
-    },
-  });
-  res.json({
-    posts: posts,
-  });
-});
-
-// single post detail
-app.get("/posts/:id", async (req, res) => {
-  const postId = parseInt(req.params.id);
-  const post = await prisma.post.findFirst({
-    where: { post_id: postId },
-  });
-  res.json({
-    posts: post,
-  });
-});
+app.use("/posts", postRoutes);
 
 // all authors
 app.get("/authors", async (req, res) => {
@@ -149,16 +118,16 @@ app.get("/logout", (req, res) => {
 app.post("/register", async (req, res) => {
   const { userValues } = req.body;
   const {
-    name,
-    username,
-    password,
-    birthDate,
+    name = undefined,
+    username = undefined,
+    password = undefined,
+    birthDate = undefined,
     profileImg = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/754.jpg",
   } = userValues;
   //check values
   if (!name || !username || !birthDate || !password) {
     res.json({
-      message: "insufficent data",
+      message: "insufficient data",
     });
     return;
   }
