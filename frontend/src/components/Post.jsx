@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AiOutlineHeart } from "react-icons/ai";
 import dayjs from "../utils/dayjs";
+import { getImgUrl } from "../utils/getImgUrl";
 
 const Post = ({ post }) => {
   const date = dayjs(post.pubDate);
@@ -12,7 +13,7 @@ const Post = ({ post }) => {
         className={`select-none h-20 w-20 ${
           imgLoaded ? "" : "animate-pulse"
         } bg-gray-700 bg-opacity-20 rounded-full`}
-        src={post.author.profileImg}
+        src={getImgUrl(post.author.profileImg)}
         alt=''
         onLoad={() => {
           setImageLoaded(true);

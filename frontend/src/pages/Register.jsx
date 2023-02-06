@@ -6,7 +6,13 @@ import { Link } from "react-router-dom";
 import InputField from "../components/InputField";
 const Register = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
+  const [userValues, setUserValues] = useState({
+    name: "furkan l",
+    username: "elbaley",
+    password: "123",
+    birthDate: "2000-12-01",
+  });
+  const [profileImg, setProfileImg] = useState();
   const [password, setPassword] = useState("");
   const { user, login } = useAuth();
   useEffect(() => {
@@ -14,26 +20,24 @@ const Register = () => {
       navigate("/feed");
     }
   }, [user]);
-  const handleLoginSubmit = async (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-
+    const formData = new FormData();
+    formData.append("profileImg", profileImg);
+    formData.append("userValues", JSON.stringify(userValues));
     try {
-      const response = await fetch("http://localhost:4001/login", {
+      const response = await fetch("http://localhost:4001/register", {
         method: "POST",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password,
-        }),
+        body: formData,
       });
       const data = await response.json();
       if (data.user) {
-        login(data.user);
+        console.log("Registered successfully !");
+        setTimeout(() => {
+          login(data.user);
+        }, 3000);
       }
-      console.log("gelen data su", data);
     } catch (error) {
       console.log("error!");
       console.log(error);
@@ -45,7 +49,8 @@ const Register = () => {
         <img className='' src={wordayLogo} alt='' />
         <h2 className='text-2xl font-bold pb-5'>create an account</h2>
         <form
-          onSubmit={handleLoginSubmit}
+          // encType='multipart/form-data'
+          onSubmit={handleRegisterSubmit}
           className='flex flex-col gap-5 h-full'
         >
           <InputField
@@ -53,9 +58,12 @@ const Register = () => {
             label
             labelText={"name"}
             onChange={(e) => {
-              setPassword(e.target.value);
+              setUserValues({
+                ...userValues,
+                name: e.target.value,
+              });
             }}
-            value={password}
+            value={userValues.name}
           />
 
           <InputField
@@ -63,18 +71,24 @@ const Register = () => {
             label
             labelText={"username"}
             onChange={(e) => {
-              setPassword(e.target.value);
+              setUserValues({
+                ...userValues,
+                username: e.target.value,
+              });
             }}
-            value={password}
+            value={userValues.username}
           />
           <InputField
             name={"password"}
             label
             labelText={"password"}
             onChange={(e) => {
-              setPassword(e.target.value);
+              setUserValues({
+                ...userValues,
+                password: e.target.value,
+              });
             }}
-            value={password}
+            value={userValues.password}
             type={"password"}
           />
           <InputField
@@ -82,9 +96,12 @@ const Register = () => {
             label
             labelText={"date of birth"}
             onChange={(e) => {
-              setPassword(e.target.value);
+              setUserValues({
+                ...userValues,
+                birthDate: e.target.value,
+              });
             }}
-            value={password}
+            value={userValues.birthDate}
             type={"date"}
           />
           <InputField
@@ -92,9 +109,8 @@ const Register = () => {
             label
             labelText={"profile picture"}
             onChange={(e) => {
-              setPassword(e.target.value);
+              setProfileImg(e.target.files[0]);
             }}
-            value={password}
             type={"file"}
           />
 

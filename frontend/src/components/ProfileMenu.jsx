@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-
+import { getImgUrl } from "../utils/getImgUrl";
 const ProfileMenu = () => {
   const { user, logout } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
@@ -14,7 +14,11 @@ const ProfileMenu = () => {
         }}
         className='select-none flex rounded-full gap-5 p-4 items-center cursor-pointer hover:bg-opacity-10 hover:bg-sky-300  w-full  absolute bottom-8'
       >
-        <img className='h-14 rounded-full' src={user.profileImg} alt='' />
+        <img
+          className='h-14 rounded-full'
+          src={getImgUrl(user.profileImg)}
+          alt=''
+        />
         <div className='hidden lg:flex  flex-col '>
           <span className='font-bold text-xl'>{user.name}</span>
           <span className='text-gray-500 '>@{user.username}</span>

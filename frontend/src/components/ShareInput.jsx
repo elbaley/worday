@@ -1,4 +1,5 @@
 import { useAuth } from "../hooks/useAuth";
+import { getImgUrl } from "../utils/getImgUrl";
 
 const ShareInput = () => {
   const { user } = useAuth();
@@ -6,7 +7,7 @@ const ShareInput = () => {
     <div className='flex px-5 items-center gap-3 my-2 relative border-b border-y-zinc-800  py-3'>
       <img
         className='rounded-full h-20 hover:opacity-80 '
-        src={user.profileImg}
+        src={getImgUrl(user.profileImg)}
         alt=''
       />
       <input

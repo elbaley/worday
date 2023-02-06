@@ -10,6 +10,15 @@ const session = require("express-session");
 const { COOKIE_NAME } = require("./constants");
 const RedisStore = require("connect-redis")(session);
 const redisClient = new Redis();
+const multer = require("multer");
+const storageEngine = multer.diskStorage({
+  destination: "./public/uploads",
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}--${file.originalname}`);
+  },
+});
+const upload = multer({ storage: storageEngine });
+
 const postRoutes = require("./routes/posts");
 app.use(
   cors({
@@ -36,6 +45,7 @@ app.use(
     resave: false,
   })
 );
+app.use(express.static("public"));
 
 app.use("/posts", postRoutes);
 
@@ -115,19 +125,37 @@ app.get("/logout", (req, res) => {
 });
 
 // register
-app.post("/register", async (req, res) => {
-  const { userValues } = req.body;
+app.post("/register", upload.single("profileImg"), async (req, res) => {
+  // Destructure userValues from req.body and set default values if not provided (each becaomes undefined)
+  const userValues = JSON.parse(req.body.userValues);
+
+  const profileImgFileName = req.file?.filename;
+
   const {
-    name = undefined,
-    username = undefined,
-    password = undefined,
-    birthDate = undefined,
-    profileImg = "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/754.jpg",
+    name,
+    username,
+    password,
+    birthDate,
+    profileImg = profileImgFileName
+      ? `/uploads/${profileImgFileName}`
+      : "/uploads/default-profile-img.jpeg",
   } = userValues;
-  //check values
+  // Check if name, username, birthDate, and password are present
   if (!name || !username || !birthDate || !password) {
-    res.json({
+    res.status(400).json({
       message: "insufficient data",
+    });
+    return;
+  }
+  // check username
+  const existingUser = await prisma.user.findFirst({
+    where: {
+      username,
+    },
+  });
+  if (existingUser) {
+    res.status(400).json({
+      message: "Username already exists",
     });
     return;
   }
@@ -140,8 +168,8 @@ app.post("/register", async (req, res) => {
       password,
     },
   });
-
-  console.log("user created!");
+  // set session
+  req.session.userId = user.user_id;
   console.log(user);
   res.json({
     user,
@@ -153,6 +181,12 @@ app.get("/me", async (req, res) => {
   res.json({
     userId: req.session.userId || null,
   });
+});
+
+app.post("/profile", upload.single("avatar"), function (req, res, next) {
+  // req.file is the `avatar` file
+  console.log(req.file);
+  // req.body will hold the text fields, if there were any
 });
 
 app.listen(4001, () => {
