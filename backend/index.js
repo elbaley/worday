@@ -177,6 +177,7 @@ app.post("/register", upload.single("profileImg"), async (req, res) => {
 });
 
 app.get("/me", async (req, res) => {
+  console.log(req.session);
   console.log(`⚠️ Request to :/me  by userId:${req.session.userId}`);
   res.json({
     userId: req.session.userId || null,

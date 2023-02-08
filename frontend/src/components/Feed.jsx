@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useEffect } from "react";
+import { usePosts } from "../context/postContext";
 import Post from "./Post";
 import ShareInput from "./ShareInput";
 
 const Feed = () => {
-  const [posts, setPosts] = useState([]);
+  const { posts } = usePosts();
+  // const [posts, setPosts] = useState([]);
   // Fetch posts
-  useEffect(() => {
-    fetch("http://localhost:4001/posts", { credentials: "include" })
-      .then((res) => res.json())
-      .then((data) => setPosts(data.posts))
-      .catch((err) => console.log(err.message));
-  }, []);
+
+  const mappedPosts = useMemo(() => {
+    return posts.map((post) => {
+      return <Post key={post.post_id} post={post} />;
+    });
+  }, [posts]);
 
   return (
     <div className='border-x border-x-zinc-800  col-span-2 text-white '>
@@ -20,11 +22,7 @@ const Feed = () => {
       </div>
       <ShareInput />
 
-      <section className='mt-12 flex flex-col'>
-        {posts.map((post) => {
-          return <Post key={post.post_id} post={post} />;
-        })}
-      </section>
+      <section className='mt-12 flex flex-col'>{mappedPosts}</section>
     </div>
   );
 };

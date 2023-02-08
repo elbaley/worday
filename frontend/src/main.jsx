@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./hooks/useAuth";
+import { PostProvider } from "./context/postContext";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -43,7 +44,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router}></RouterProvider>
+      <PostProvider>
+        <RouterProvider router={router}></RouterProvider>
+      </PostProvider>
     </AuthProvider>
 
     {/* <App /> */}
