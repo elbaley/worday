@@ -2,9 +2,9 @@ const MenuButton = ({ buttonName }) => {
   console.log();
   return (
     <button
-      className={` font-bold text-2xl pl-4  pr-7 py-2 hover:bg-sky-100 hover:bg-opacity-10 rounded-full ${
+      className={` rounded-full py-2 pl-4  pr-7 text-2xl font-bold hover:bg-sky-100 hover:bg-opacity-10 ${
         buttonName === "share"
-          ? "w-3/4 mx-auto  bg-sky-500 hover:bg-sky-500 hover:bg-opacity-90"
+          ? "mx-auto w-3/4  bg-sky-500 hover:bg-sky-500 hover:bg-opacity-90"
           : ""
       } `}
     >

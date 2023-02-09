@@ -40,13 +40,13 @@ const Login = () => {
     }
   };
   return (
-    <main className='flex bg-zinc-900 bg-opacity-80 flex-col justify-center items-center h-screen text-lg'>
-      <section className='bg-black w-[500px] h-[400px] p-5 rounded-2xl flex flex-col items-center'>
-        <img className='' src={wordayLogo} alt='' />
-        <h2 className='text-2xl font-bold pb-5'>sign in to worday</h2>
+    <main className="flex h-screen flex-col items-center justify-center bg-zinc-900 bg-opacity-80 text-lg">
+      <section className="flex h-[400px] w-[500px] flex-col items-center rounded-2xl bg-black p-5">
+        <img className="" src={wordayLogo} alt="" />
+        <h2 className="pb-5 text-2xl font-bold">sign in to worday</h2>
         <form
           onSubmit={handleLoginSubmit}
-          className='flex flex-col gap-3 h-full'
+          className="flex h-full flex-col gap-3"
         >
           <InputField
             name={"username"}
@@ -63,14 +63,14 @@ const Login = () => {
           />
 
           <button
-            type='submit'
-            className='border mt-2 border-slate-800 hover:bg-opacity-80 rounded-full text-xl bg-white text-black '
+            type="submit"
+            className="mt-2 rounded-full border border-slate-800 bg-white text-xl text-black hover:bg-opacity-80 "
           >
             login
           </button>
-          <p className='text-zinc-500 mt-auto text-sm'>
+          <p className="mt-auto text-sm text-zinc-500">
             Don't have an account?{" "}
-            <Link className='text-sky-500' to='/register'>
+            <Link className="text-sky-500" to="/register">
               sign up
             </Link>
           </p>
