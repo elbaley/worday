@@ -1,4 +1,14 @@
+import { useEffect, useState } from "react";
+
 const RightPanel = () => {
+  const [popularWords, setPopularWords] = useState();
+  useEffect(() => {
+    fetch("http://localhost:4001/posts/popular", { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => {
+        setPopularWords(data.popularWords);
+      });
+  }, []);
   return (
     <aside className="hidden bg-black px-7 pt-5 text-white lg:block ">
       <span className="absolute inset-y-0 left-0 flex items-center pl-2"></span>
@@ -36,23 +46,15 @@ const RightPanel = () => {
       >
         <h1 className="text-2xl font-bold">popular words</h1>
 
-        {/* Popular Words */}
         <div className="my-4 flex flex-col gap-y-2">
-          <span className="cursor-pointer text-lg hover:bg-sky-100 hover:bg-opacity-10">
-            word
-          </span>
-          <span className="cursor-pointer text-lg hover:bg-sky-100 hover:bg-opacity-10">
-            ipsum
-          </span>
-          <span className="cursor-pointer text-lg hover:bg-sky-100 hover:bg-opacity-10">
-            dolor
-          </span>
-          <span className="cursor-pointer text-lg hover:bg-sky-100 hover:bg-opacity-10">
-            sitom
-          </span>
-          <span className="cursor-pointer text-lg hover:bg-sky-100 hover:bg-opacity-10">
-            amet
-          </span>
+          {popularWords &&
+            popularWords.map((word) => {
+              return (
+                <span className="cursor-pointer text-lg hover:bg-sky-100 hover:bg-opacity-10">
+                  {word.postContent}
+                </span>
+              );
+            })}
         </div>
       </section>
     </aside>

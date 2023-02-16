@@ -25,6 +25,27 @@ router.get("/", async (req, res) => {
   });
 });
 
+// list popular words
+router.get("/popular", async (req, res) => {
+  // fetch popular words
+  const popularWords = await prisma.post.groupBy({
+    by: ["postContent"],
+    _count: {
+      postContent: true,
+      _all: true,
+    },
+    orderBy: {
+      _count: {
+        postContent: "desc",
+      },
+    },
+    take: 5,
+  });
+  res.json({
+    popularWords,
+  });
+});
+
 // add post
 router.post("/", async (req, res) => {
   // check values
