@@ -65,4 +65,15 @@ router.get("/:id", async (req, res) => {
   });
 });
 
+// delete post
+router.put("/:id", async (req, res) => {
+  const postId = parseInt(req.params.id);
+  const post = await prisma.post.deleteMany({
+    where: { post_id: postId, authorId: req.session.userId },
+  });
+  res.json({
+    posts: post,
+  });
+});
+
 module.exports = router;

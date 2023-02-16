@@ -28,27 +28,27 @@ const ShareInput = () => {
       });
   };
   return (
-    <div className="relative my-2 flex items-center gap-3 border-b border-y-zinc-800 px-5  py-3">
+    <div className='relative my-2 flex items-center gap-3 border-b border-y-zinc-800 px-5  py-3'>
       <img
-        className="h-20	 w-20 rounded-full object-cover hover:opacity-80 "
+        className='h-20	 w-20 rounded-full object-cover hover:opacity-80 '
         src={getImgUrl(user.profileImg)}
-        alt=""
+        alt=''
       />
       <input
         value={post.postContent}
         onChange={(e) => {
           setPost({
             ...post,
-            postContent: e.target.value,
+            postContent: e.target.value.trim(),
           });
         }}
-        className="w-full flex-1 border-transparent bg-black text-2xl outline-0 "
-        type="text"
+        className='w-full flex-1 border-transparent bg-black text-2xl outline-0 '
+        type='text'
         placeholder="today's word?"
       />
       <button
         onClick={handlePostSubmit}
-        className="absolute -bottom-10 right-3 rounded-md bg-sky-500 px-5 text-center text-lg hover:bg-sky-500 hover:bg-opacity-90"
+        className='absolute -bottom-10 right-3 rounded-md bg-sky-500 px-5 text-center text-lg hover:bg-sky-500 hover:bg-opacity-90'
       >
         share
       </button>
