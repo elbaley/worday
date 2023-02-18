@@ -59,14 +59,27 @@ app.get("/authors", async (req, res) => {
 });
 
 // single author
-app.get("/authors/:id", async (req, res) => {
-  const authorId = parseInt(req.params.id);
+app.get("/authors/:username", async (req, res) => {
+  const username = req.params.username;
   const author = await prisma.user.findFirst({
     where: {
-      user_id: authorId,
+      username,
+    },
+    include: {
+      posts: {
+        include: {
+          author: true,
+        },
+      },
     },
   });
-
+  if (!author) {
+    return res.status(400).json({
+      error: {
+        message: "no user found!",
+      },
+    });
+  }
   res.json({
     author,
   });
@@ -124,7 +137,7 @@ app.get("/logout", (req, res) => {
     } else {
       console.log(err);
       res.json({
-        success: true,
+        success: false,
       });
     }
   });

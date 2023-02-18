@@ -14,6 +14,9 @@ import Register from "./pages/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./hooks/useAuth";
 import { PostProvider } from "./context/postContext";
+import Profile from "./pages/Profile";
+import Layout from "./components/Layout";
+import Feed from "./components/Feed";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,7 +30,19 @@ const router = createBrowserRouter([
     path: "/feed",
     element: (
       <ProtectedRoute>
-        <App />
+        <Layout>
+          <Feed />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/profile/:username",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <Profile />
+        </Layout>
       </ProtectedRoute>
     ),
   },

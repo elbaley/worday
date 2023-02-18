@@ -1,10 +1,15 @@
 import MenuButton from "./MenuButton";
 import ProfileMenu from "./ProfileMenu";
 import wordayLogo from "../assets/wordayLogo.svg";
+import { useNavigate } from "react-router-dom";
 const LeftPanel = () => {
+  const navigate = useNavigate();
   return (
     <aside className="sticky left-0 top-0 mx-6 h-screen bg-black pt-5 text-white">
       <img
+        onClick={() => {
+          navigate("/");
+        }}
         className="mb-3 flex cursor-pointer justify-center  rounded-full   p-2  duration-300 ease-in-out  hover:bg-sky-800 hover:bg-opacity-20"
         src={wordayLogo}
         alt=""

@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { getImgUrl } from "../utils/getImgUrl";
 const ProfileMenu = () => {
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
   return (
@@ -15,7 +17,7 @@ const ProfileMenu = () => {
         className="absolute bottom-8 flex w-full cursor-pointer select-none items-center gap-5 rounded-full  p-4  hover:bg-sky-300 hover:bg-opacity-10"
       >
         <img
-          className="aspect-square h-14 rounded-full object-cover"
+          className="aspect-square h-12 rounded-full object-cover"
           src={getImgUrl(user.profileImg)}
           alt=""
         />
@@ -49,7 +51,12 @@ const ProfileMenu = () => {
           showMenu ? "visible" : "invisible"
         } duration-800 absolute bottom-24 z-10 mb-5 w-full  rounded-md border border-zinc-800   pb-3 font-bold shadow-xl ease-out`}
       >
-        <span className="block cursor-pointer py-2 px-2 text-xl hover:bg-slate-400 hover:bg-opacity-10">
+        <span
+          onClick={() => {
+            navigate("/profile");
+          }}
+          className="block cursor-pointer py-2 px-2 text-xl hover:bg-slate-400 hover:bg-opacity-10"
+        >
           profile
         </span>
         <span
