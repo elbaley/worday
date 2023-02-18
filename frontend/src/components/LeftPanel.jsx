@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const LeftPanel = () => {
   const navigate = useNavigate();
   return (
-    <aside className="sticky left-0 top-0 mx-6 h-screen bg-black pt-5 text-white">
+    <aside className="sticky left-0 top-0 mx-6 hidden h-screen bg-black pt-5 text-white sm:block">
       <img
         onClick={() => {
           navigate("/");

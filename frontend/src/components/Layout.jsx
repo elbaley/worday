@@ -3,9 +3,9 @@ import RightPanel from "./RightPanel";
 
 function Layout({ children }) {
   return (
-    <main className="container grid  grid-cols-3 lg:grid-cols-4 ">
+    <main className="container grid  sm:grid-cols-3 lg:grid-cols-4 ">
       <LeftPanel />
-      <section className="col-span-2 border-x  border-x-zinc-800 text-white  ">
+      <section className="border-x border-x-zinc-800  text-white sm:col-span-2  ">
         {children}
       </section>
       <RightPanel className="hidden" />
