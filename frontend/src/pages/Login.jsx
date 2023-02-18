@@ -4,8 +4,10 @@ import { useAuth } from "../hooks/useAuth";
 import wordayLogo from "../assets/wordayLogo.svg";
 import { Link } from "react-router-dom";
 import InputField from "../components/InputField";
+import ErrorMessage from "../components/ErrorMessage";
 const Login = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { user, login } = useAuth();
@@ -13,7 +15,12 @@ const Login = () => {
     if (user) {
       navigate("/feed");
     }
-  }, [user]);
+    if (errorMessage) {
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    }
+  }, [user, errorMessage]);
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
@@ -30,10 +37,12 @@ const Login = () => {
         }),
       });
       const data = await response.json();
+      if (data?.error?.message) {
+        setErrorMessage(data.error.message);
+      }
       if (data.user) {
         login(data.user);
       }
-      console.log("gelen data su", data);
     } catch (error) {
       console.log("error!");
       console.log(error);
@@ -46,7 +55,7 @@ const Login = () => {
         <h2 className="pb-5 text-2xl font-bold">sign in to worday</h2>
         <form
           onSubmit={handleLoginSubmit}
-          className="flex h-full flex-col gap-3"
+          className="flex w-5/6 flex-col gap-3"
         >
           <InputField
             name={"username"}
@@ -61,7 +70,7 @@ const Login = () => {
               setPassword(e.target.value);
             }}
           />
-
+          {errorMessage && <ErrorMessage message={errorMessage} />}
           <button
             type="submit"
             className="mt-2 rounded-full border border-slate-800 bg-white text-xl text-black hover:bg-opacity-80 "

@@ -48,9 +48,12 @@ const RightPanel = () => {
 
         <div className="my-4 flex flex-col gap-y-2">
           {popularWords &&
-            popularWords.map((word) => {
+            popularWords.map((word, i) => {
               return (
-                <span className="cursor-pointer text-lg hover:bg-sky-100 hover:bg-opacity-10">
+                <span
+                  key={i}
+                  className="cursor-pointer text-lg hover:bg-sky-100 hover:bg-opacity-10"
+                >
                   {word.postContent}
                 </span>
               );

@@ -79,7 +79,9 @@ app.post("/login", async (req, res) => {
   // check if username - password exists
   if (!username || !password) {
     return res.json({
-      error: "Username/password did not match!",
+      error: {
+        message: "Username/password did not match!",
+      },
     });
   }
   // find user in the db
@@ -90,13 +92,17 @@ app.post("/login", async (req, res) => {
   });
   if (!user) {
     return res.json({
-      error: "No such user!",
+      error: {
+        message: "No such user!",
+      },
     });
   }
   // check password
   if (user.password !== password) {
     return res.json({
-      error: "Invalid password!",
+      error: {
+        message: "Invalid password!",
+      },
     });
   }
 
@@ -143,7 +149,9 @@ app.post("/register", upload.single("profileImg"), async (req, res) => {
   // Check if name, username, birthDate, and password are present
   if (!name || !username || !birthDate || !password) {
     res.status(400).json({
-      message: "insufficient data",
+      error: {
+        message: "insufficient data",
+      },
     });
     return;
   }

@@ -4,22 +4,28 @@ import { useAuth } from "../hooks/useAuth";
 import wordayLogo from "../assets/wordayLogo.svg";
 import { Link } from "react-router-dom";
 import InputField from "../components/InputField";
+import ErrorMessage from "../components/ErrorMessage";
 const Register = () => {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState();
   const [userValues, setUserValues] = useState({
-    name: "furkan l",
-    username: "elbaley",
-    password: "123",
-    birthDate: "2000-12-01",
+    name: "",
+    username: "",
+    password: "",
+    birthDate: "",
   });
   const [profileImg, setProfileImg] = useState();
-  const [password, setPassword] = useState("");
   const { user, login } = useAuth();
   useEffect(() => {
     if (user) {
       navigate("/feed");
     }
-  }, [user]);
+    if (errorMessage) {
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 3000);
+    }
+  }, [user, errorMessage]);
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -32,6 +38,9 @@ const Register = () => {
         body: formData,
       });
       const data = await response.json();
+      if (data?.error?.message) {
+        setErrorMessage(data.error.message);
+      }
       if (data.user) {
         console.log("Registered successfully !");
         setTimeout(() => {
@@ -113,7 +122,7 @@ const Register = () => {
             }}
             type={"file"}
           />
-
+          {errorMessage && <ErrorMessage message={errorMessage} />}
           <button
             type="submit"
             className="rounded-full border border-slate-800 bg-white text-xl text-black hover:bg-opacity-80 "
