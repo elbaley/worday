@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 const LeftPanel = () => {
   const navigate = useNavigate();
   return (
-    <aside className="sticky left-0 top-0 mx-6 hidden h-screen bg-black pt-5 text-white sm:block">
+    <aside className="sticky left-0 top-0 mx-6 hidden h-screen flex-col overflow-scroll bg-black pt-5 text-white sm:flex sm:flex-col">
       <img
         onClick={() => {
           navigate("/");
         }}
-        className="mb-3 flex cursor-pointer justify-center  rounded-full   p-2  duration-300 ease-in-out  hover:bg-sky-800 hover:bg-opacity-20"
+        className="mb-3 flex aspect-square w-[50px] cursor-pointer  justify-center rounded-full   p-2  duration-300 ease-in-out  hover:bg-sky-800 hover:bg-opacity-20"
         src={wordayLogo}
         alt=""
       />
@@ -25,7 +25,7 @@ const LeftPanel = () => {
       >
         <path d='M31.25 7.003c0-0 0-0.001 0-0.001 0-0.346-0.14-0.659-0.365-0.886l-5-5c-0.227-0.226-0.539-0.366-0.885-0.366s-0.658 0.14-0.885 0.366v0l-4.109 4.109-2.122-2.109c-0.226-0.226-0.539-0.366-0.884-0.366s-0.658 0.14-0.884 0.366l-7.068 7.068c-0.225 0.226-0.363 0.537-0.363 0.881 0 0.69 0.56 1.25 1.25 1.25 0.344 0 0.655-0.139 0.881-0.363l6.185-6.184 1.236 1.228-15.12 15.12c-0.146 0.146-0.256 0.329-0.316 0.532l-0.002 0.009-2 7c-0.030 0.102-0.048 0.22-0.048 0.342 0 0.691 0.559 1.251 1.25 1.252h0c0.126-0 0.248-0.019 0.363-0.053l-0.009 0.002 6.788-2c0.206-0.063 0.383-0.17 0.527-0.311l-0 0 21.211-21c0.229-0.226 0.37-0.539 0.371-0.886v-0zM8.133 26.891l-4.307 1.268 1.287-4.504 14.897-14.897 3.214 3.192zM25.002 10.19l-3.222-3.202 3.22-3.22 3.229 3.228z'></path>
       </svg> */}
-      <div className="flex flex-col items-start gap-y-3">
+      <div className="flex flex-col items-start gap-y-3 pb-28">
         <MenuButton buttonName={"feed"} />
         <MenuButton buttonName={"likes"} />
         <MenuButton buttonName={"share"} />

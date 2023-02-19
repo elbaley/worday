@@ -14,8 +14,30 @@ const ProfileMenu = () => {
             return !oldValue;
           });
         }}
-        className="absolute bottom-8 flex w-full cursor-pointer select-none items-center gap-5 rounded-full  p-4  hover:bg-sky-300 hover:bg-opacity-10"
+        className="relative mb-5 mt-auto flex w-full cursor-pointer select-none items-center gap-5 rounded-full  p-4 outline-2 outline-white hover:bg-sky-300 hover:bg-opacity-10"
       >
+        <div
+          className={`${
+            showMenu ? "visible" : "invisible"
+          } fixed bottom-20 z-10 mb-2 w-64 max-w-xs rounded-md border border-zinc-800   bg-black font-bold shadow-xl ease-out`}
+        >
+          <span
+            onClick={() => {
+              navigate(`/profile/${user.username}`);
+            }}
+            className="block cursor-pointer py-2 px-2 text-xl hover:bg-slate-400 hover:bg-opacity-10"
+          >
+            profile
+          </span>
+          <span
+            onClick={() => {
+              logout();
+            }}
+            className="block cursor-pointer py-2 px-2 text-xl hover:bg-slate-400 hover:bg-opacity-10"
+          >
+            logout
+          </span>
+        </div>{" "}
         <img
           className="aspect-square h-12 rounded-full object-cover"
           src={getImgUrl(user.profileImg)}
@@ -26,7 +48,7 @@ const ProfileMenu = () => {
           <span className="text-gray-500 ">@{user.username}</span>
         </div>
         <svg
-          className="absolute right-10 hidden xl:block"
+          className=" right-10 ml-auto hidden xl:block"
           fill="white"
           height="20px"
           width="20px"
@@ -46,28 +68,6 @@ const ProfileMenu = () => {
           </g>
         </svg>
       </div>
-      <div
-        className={`${
-          showMenu ? "visible" : "invisible"
-        } duration-800 absolute bottom-24 z-10 mb-5 w-full  rounded-md border border-zinc-800   pb-3 font-bold shadow-xl ease-out`}
-      >
-        <span
-          onClick={() => {
-            navigate("/profile");
-          }}
-          className="block cursor-pointer py-2 px-2 text-xl hover:bg-slate-400 hover:bg-opacity-10"
-        >
-          profile
-        </span>
-        <span
-          onClick={() => {
-            logout();
-          }}
-          className="block cursor-pointer py-2 px-2 text-xl hover:bg-slate-400 hover:bg-opacity-10"
-        >
-          logout
-        </span>
-      </div>{" "}
     </>
   );
 };
