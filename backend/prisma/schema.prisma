@@ -16,6 +16,7 @@ model User {
   profileImg String @db.VarChar(255)
   password String @db.VarChar(255)
   posts Post[]
+  likedPosts Post[] @relation("likes")
 }
 
 model Post{
@@ -24,4 +25,5 @@ model Post{
   pubDate DateTime 
   authorId Int 
   author User @relation(fields: [authorId],references: [user_id])
+  likedBy User[] @relation("likes")
 }

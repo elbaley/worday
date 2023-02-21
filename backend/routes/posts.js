@@ -18,8 +18,28 @@ router.get("/", async (req, res) => {
           profileImg: true,
         },
       },
+      likedBy: {
+        select: {
+          user_id: true,
+        },
+      },
+      _count: true,
     },
   });
+  // add currentlyLiked field for all posts
+  posts.map((post) => {
+    const { likedBy } = post;
+    if (
+      likedBy.filter((like) => like.user_id === req.session.userId).length > 0
+    ) {
+      post.currentlyLiked = true;
+      return post;
+    } else {
+      post.currentlyLiked = false;
+      return post;
+    }
+  });
+  console.log(posts);
   res.json({
     posts: posts,
   });
@@ -80,7 +100,19 @@ router.get("/:id", async (req, res) => {
   const postId = parseInt(req.params.id);
   const post = await prisma.post.findFirst({
     where: { post_id: postId },
+    include: {
+      author: true,
+      likedBy: {
+        take: 4,
+      },
+      _count: {
+        select: {
+          likedBy: true,
+        },
+      },
+    },
   });
+  console.log(post);
   res.json({
     posts: post,
   });
@@ -96,5 +128,56 @@ router.put("/:id", async (req, res) => {
     posts: post,
   });
 });
+// like a post
 
+router.put("/like/:id", async (req, res) => {
+  const postId = parseInt(req.params.id);
+  console.log("begenmek icin gelen userId", req.session.userId);
+  const userId = req.session.userId;
+  // check if the user has already liked the post
+  const post = await prisma.post.findUnique({
+    where: {
+      post_id: postId,
+    },
+    include: {
+      likedBy: true,
+    },
+  });
+  const hasLiked = post.likedBy.some((like) => like.user_id === userId);
+  if (hasLiked) {
+    const updatedPost = await prisma.post.update({
+      where: {
+        post_id: postId,
+      },
+      data: {
+        likedBy: {
+          disconnect: {
+            user_id: userId,
+          },
+        },
+      },
+    });
+    res.json({
+      msg: "post unliked!",
+      post: updatedPost,
+    });
+  } else {
+    const updatedPost = await prisma.post.update({
+      where: {
+        post_id: postId,
+      },
+      data: {
+        likedBy: {
+          connect: {
+            user_id: userId,
+          },
+        },
+      },
+    });
+    res.json({
+      msg: "post liked",
+      post: updatedPost,
+    });
+  }
+});
 module.exports = router;

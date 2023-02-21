@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AiOutlineHeart, AiFillDelete } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart, AiFillDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { usePosts } from "../context/postContext";
 import { useAuth } from "../hooks/useAuth";
@@ -32,6 +32,20 @@ const Post = ({ post }) => {
       }
     }
   };
+  const handleLikePost = async () => {
+    const response = await fetch(
+      `http://localhost:4001/posts/like/${post.post_id}`,
+      {
+        method: "PUT",
+        credentials: "include",
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Failed to like the post");
+    }
+    // refetch posts
+    fetchPosts();
+  };
   return (
     <div className="flex gap-3 border-t border-y-zinc-800 px-5 py-3 ">
       <img
@@ -62,8 +76,15 @@ const Post = ({ post }) => {
         </div>
         <span className="text-xl">{post.postContent}</span>
         <div className="flex items-center justify-between">
-          <button className="h-8 w-8 rounded-full p-1 hover:bg-slate-400 hover:bg-opacity-40">
-            <AiOutlineHeart size={24} />
+          <button
+            onClick={handleLikePost}
+            className="h-8 w-8 rounded-full p-1 hover:bg-slate-400 hover:bg-opacity-40"
+          >
+            {post.currentlyLiked ? (
+              <AiFillHeart color="rgb(219 39 119)" size={24} />
+            ) : (
+              <AiOutlineHeart size={24} />
+            )}
           </button>
           {user.user_id === post.authorId && (
             <button

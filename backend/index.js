@@ -71,6 +71,7 @@ app.get("/authors/:username", async (req, res) => {
           author: true,
         },
       },
+      likedPosts: true,
     },
   });
   if (!author) {
