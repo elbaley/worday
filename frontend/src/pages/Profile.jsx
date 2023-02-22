@@ -8,7 +8,8 @@ const Profile = () => {
   const navigate = useNavigate();
   const { username } = useParams();
   const [user, setUser] = useState();
-  useEffect(() => {
+  const [userPosts, setUserPosts] = useState([]);
+  async function getUserDetails() {
     // fetch the user details
     fetch(`http://localhost:4001/authors/${username}`, {
       credentials: "include",
@@ -23,12 +24,32 @@ const Profile = () => {
           setUser(data.author);
         }
       });
+  }
+  async function getUserPosts() {
+    // fetch the user details
+    fetch(`http://localhost:4001/authors/${username}/posts`, {
+      credentials: "include",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          //redirect to feed
+          navigate("/feed");
+        }
+        if (!data.error) {
+          setUserPosts(data.posts);
+        }
+      });
+  }
+  useEffect(() => {
+    getUserDetails();
+    getUserPosts();
   }, []);
   return (
     <section className="">
       <PageTitle backButton title={user?.name}>
         <span className="text-sm text-zinc-500">
-          {user?.posts.length} words
+          {user?._count.posts} words
         </span>
       </PageTitle>
       <section className=" flex flex-col border-b border-zinc-900 p-3">
@@ -40,8 +61,16 @@ const Profile = () => {
         <span className="text-sm text-zinc-500">@{user?.username}</span>
       </section>
       <h3 className="text-md py-1 pl-2 font-bold">words</h3>
-      {user?.posts.map((post) => {
-        return <Post post={post} />;
+      {userPosts.map((post) => {
+        return (
+          <Post
+            post={post}
+            refetchPosts={() => {
+              console.log("refetching posts...");
+              getUserPosts();
+            }}
+          />
+        );
       })}
     </section>
   );

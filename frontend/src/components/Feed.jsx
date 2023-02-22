@@ -6,13 +6,16 @@ import Post from "./Post";
 import ShareInput from "./ShareInput";
 
 const Feed = () => {
-  const { posts } = usePosts();
+  const { posts, fetchPosts } = usePosts();
+  useEffect(() => {
+    fetchPosts();
+  }, []);
   // const [posts, setPosts] = useState([]);
   // Fetch posts
 
   const mappedPosts = useMemo(() => {
     return posts.map((post) => {
-      return <Post key={post.post_id} post={post} />;
+      return <Post key={post.post_id} post={post} refetchPosts={fetchPosts} />;
     });
   }, [posts]);
 

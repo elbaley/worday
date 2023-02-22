@@ -20,6 +20,7 @@ const storageEngine = multer.diskStorage({
 const upload = multer({ storage: storageEngine });
 
 const postRoutes = require("./routes/posts");
+const authorRoutes = require("./routes/authors");
 const addCurrentlyLikedToPosts = require("./utils/addCurrentlyLikedToPosts");
 app.use(
   cors({
@@ -49,55 +50,7 @@ app.use(
 app.use(express.static("public"));
 
 app.use("/posts", postRoutes);
-
-// all authors
-app.get("/authors", async (req, res) => {
-  const authors = await prisma.user.findMany();
-
-  res.json({
-    authors,
-  });
-});
-
-// single author
-app.get("/authors/:username", async (req, res) => {
-  const username = req.params.username;
-  const author = await prisma.user.findFirst({
-    where: {
-      username,
-    },
-    include: {
-      posts: {
-        include: {
-          author: true,
-          likedBy: true,
-          _count: {
-            select: {
-              likedBy: true,
-            },
-          },
-        },
-        orderBy: {
-          pubDate: "desc",
-        },
-      },
-      likedPosts: true,
-    },
-  });
-  if (!author) {
-    return res.status(400).json({
-      error: {
-        message: "no user found!",
-      },
-    });
-  }
-  // add currentlyLiked field to author's posts
-  console.log("DIKKATTT !!", req.session.userId);
-  author.posts = addCurrentlyLikedToPosts(author.posts, req.session.userId);
-  res.json({
-    author,
-  });
-});
+app.use("/authors", authorRoutes);
 
 // login
 app.post("/login", async (req, res) => {

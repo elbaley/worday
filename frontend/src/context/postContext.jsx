@@ -18,9 +18,9 @@ export const PostProvider = (props) => {
     }
   };
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  // useEffect(() => {
+  //   fetchPosts();
+  // }, []);
 
   return (
     <PostContext.Provider value={{ posts, setPosts, fetchPosts }}>

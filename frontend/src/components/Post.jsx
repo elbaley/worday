@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AiOutlineHeart, AiFillHeart, AiFillDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { usePosts } from "../context/postContext";
 import { useAuth } from "../hooks/useAuth";
 import dayjs from "../utils/dayjs";
 import { getImgUrl } from "../utils/getImgUrl";
 
-const Post = ({ post }) => {
+const Post = ({ post, refetchPosts }) => {
   const date = dayjs(post.pubDate);
-  const { fetchPosts } = usePosts();
 
   const { user } = useAuth();
   const [imgLoaded, setImageLoaded] = useState(false);
@@ -44,7 +42,7 @@ const Post = ({ post }) => {
       throw new Error("Failed to like the post");
     }
     // refetch posts
-    fetchPosts();
+    refetchPosts();
   };
   return (
     <div className="flex gap-3 border-t border-y-zinc-800 px-5 py-3 ">
