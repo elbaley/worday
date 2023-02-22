@@ -20,6 +20,7 @@ const storageEngine = multer.diskStorage({
 const upload = multer({ storage: storageEngine });
 
 const postRoutes = require("./routes/posts");
+const addCurrentlyLikedToPosts = require("./utils/addCurrentlyLikedToPosts");
 app.use(
   cors({
     origin: ["http://localhost:5173", "http://192.168.1.101:5173"],
@@ -69,6 +70,15 @@ app.get("/authors/:username", async (req, res) => {
       posts: {
         include: {
           author: true,
+          likedBy: true,
+          _count: {
+            select: {
+              likedBy: true,
+            },
+          },
+        },
+        orderBy: {
+          pubDate: "desc",
         },
       },
       likedPosts: true,
@@ -81,6 +91,9 @@ app.get("/authors/:username", async (req, res) => {
       },
     });
   }
+  // add currentlyLiked field to author's posts
+  console.log("DIKKATTT !!", req.session.userId);
+  author.posts = addCurrentlyLikedToPosts(author.posts, req.session.userId);
   res.json({
     author,
   });

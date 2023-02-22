@@ -10,7 +10,9 @@ const Profile = () => {
   const [user, setUser] = useState();
   useEffect(() => {
     // fetch the user details
-    fetch(`http://localhost:4001/authors/${username}`)
+    fetch(`http://localhost:4001/authors/${username}`, {
+      credentials: "include",
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.error) {

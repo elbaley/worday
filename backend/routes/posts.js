@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-
+const addCurrentlyLikedToPosts = require("../utils/addCurrentlyLikedToPosts.js");
 // list all posts
 router.get("/", async (req, res) => {
   // fetch posts from db
@@ -26,22 +26,9 @@ router.get("/", async (req, res) => {
       _count: true,
     },
   });
-  // add currentlyLiked field for all posts
-  posts.map((post) => {
-    const { likedBy } = post;
-    if (
-      likedBy.filter((like) => like.user_id === req.session.userId).length > 0
-    ) {
-      post.currentlyLiked = true;
-      return post;
-    } else {
-      post.currentlyLiked = false;
-      return post;
-    }
-  });
   console.log(posts);
   res.json({
-    posts: posts,
+    posts: addCurrentlyLikedToPosts(posts, req.session.userId),
   });
 });
 

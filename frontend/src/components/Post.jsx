@@ -78,20 +78,29 @@ const Post = ({ post }) => {
         <div className="flex items-center justify-between">
           <button
             onClick={handleLikePost}
-            className="h-8 w-8 rounded-full p-1 hover:bg-slate-400 hover:bg-opacity-40"
+            className="flex items-center justify-center rounded-full  text-center "
           >
             {post.currentlyLiked ? (
-              <AiFillHeart color="rgb(219 39 119)" size={24} />
+              <AiFillHeart
+                className="rounded-full fill-pink-600 p-2 hover:bg-slate-400 hover:bg-opacity-40"
+                size={32}
+              />
             ) : (
-              <AiOutlineHeart size={24} />
+              <AiOutlineHeart
+                className="rounded-full fill-zinc-500 p-2 hover:bg-slate-400 hover:bg-opacity-40"
+                size={32}
+              />
             )}
+            <span className="ml-0.5 text-sm text-zinc-500">
+              {post._count?.likedBy}
+            </span>
           </button>
           {user.user_id === post.authorId && (
             <button
               onClick={handleDeletePost}
-              className="h-8 w-8 rounded-full p-1 hover:bg-slate-400 hover:bg-opacity-40"
+              className="flex aspect-square h-8 items-center justify-center rounded-full hover:bg-slate-400 hover:bg-opacity-40"
             >
-              <AiFillDelete size={24} />
+              <AiFillDelete size={16} />
             </button>
           )}
         </div>
