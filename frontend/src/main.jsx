@@ -1,22 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import "./index.css";
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  RouterProvider,
-  Route,
-  useRoutes,
-} from "react-router-dom";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { AuthProvider } from "./hooks/useAuth";
-import { PostProvider } from "./context/postContext";
-import Profile from "./pages/Profile";
-import Layout from "./components/Layout";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Feed from "./components/Feed";
+import Layout from "./components/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { PostProvider } from "./context/postContext";
+import { AuthProvider } from "./hooks/useAuth";
+import "./index.css";
+import Likes from "./pages/Likes";
+import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import Register from "./pages/Register";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,6 +26,16 @@ const router = createBrowserRouter([
       <ProtectedRoute>
         <Layout>
           <Feed />
+        </Layout>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/likes",
+    element: (
+      <ProtectedRoute>
+        <Layout>
+          <Likes />
         </Layout>
       </ProtectedRoute>
     ),

@@ -1,14 +1,19 @@
-import { useState } from "react";
-import { AiOutlineHeart, AiFillHeart, AiFillDelete } from "react-icons/ai";
+import { useEffect, useState } from "react";
+import { AiFillDelete, AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { usePosts } from "../context/postContext";
 import { useAuth } from "../hooks/useAuth";
 import dayjs from "../utils/dayjs";
 import { getImgUrl } from "../utils/getImgUrl";
 
-const Post = ({ post, refetchPosts }) => {
+const Post = ({ post: givenPost, refetchPosts }) => {
+  const [post, setPost] = useState(givenPost);
   const date = dayjs(post.pubDate);
   const { fetchPosts } = usePosts();
+
+  useEffect(() => {
+    setPost(givenPost);
+  }, [givenPost]);
 
   const { user } = useAuth();
   const [imgLoaded, setImageLoaded] = useState(false);
@@ -44,7 +49,11 @@ const Post = ({ post, refetchPosts }) => {
       throw new Error("Failed to like the post");
     }
     // refetch posts
-    refetchPosts();
+    if (refetchPosts) {
+      refetchPosts();
+    } else {
+      setPost({ ...post, currentlyLiked: !post.currentlyLiked });
+    }
   };
   return (
     <div className="flex gap-3 border-t border-y-zinc-800 px-5 py-3 ">
@@ -66,6 +75,7 @@ const Post = ({ post, refetchPosts }) => {
             </Link>
           </span>
           <span className="pr-1 text-zinc-500">@{post.author.username}</span>
+          <span className="text-zinc-500">•</span>
           <span className="text-zinc-500">
             {/* Display date in format "MMM D" if older than a month 
                 otherwise display relative time */}

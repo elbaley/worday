@@ -60,9 +60,6 @@ router.get("/:username/posts", async (req, res) => {
       },
     },
   });
-  // add currentlyLiked field to author's posts
-  author.posts = addCurrentlyLikedToPosts(author.posts, req.session.userId);
-  console.log(author);
   if (!author) {
     return res.status(400).json({
       error: {
@@ -70,7 +67,46 @@ router.get("/:username/posts", async (req, res) => {
       },
     });
   }
-  // delete TODO
+  // add currentlyLiked field to author's posts
+  author.posts = addCurrentlyLikedToPosts(author.posts, req.session.userId);
   res.json({ posts: author.posts });
 });
+// list of author's likes
+router.get("/:username/likes", async (req, res) => {
+  const username = req.params.username;
+  const postsLikedByAuthor = await prisma.user.findFirst({
+    where: {
+      username,
+    },
+    select: {
+      likedPosts: {
+        include: {
+          author: {
+            select: {
+              name: true,
+              username: true,
+              profileImg: true,
+            },
+          },
+          _count: true,
+          likedBy: true,
+        },
+      },
+    },
+  });
+  if (!postsLikedByAuthor) {
+    return res.status(400).json({
+      error: {
+        message: "no user found!",
+      },
+    });
+  }
+  // add currentlyLiked field to posts
+  postsLikedByAuthor.likedPosts = addCurrentlyLikedToPosts(
+    postsLikedByAuthor.likedPosts,
+    req.session.userId
+  );
+  res.json({ posts: postsLikedByAuthor.likedPosts });
+});
+
 export default router;
