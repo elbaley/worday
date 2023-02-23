@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import Post from "../components/Post";
 
 export const PostContext = createContext();
 
@@ -17,10 +16,6 @@ export const PostProvider = (props) => {
       console.log(err.message);
     }
   };
-
-  // useEffect(() => {
-  //   fetchPosts();
-  // }, []);
 
   return (
     <PostContext.Provider value={{ posts, setPosts, fetchPosts }}>

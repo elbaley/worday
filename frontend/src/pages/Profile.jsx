@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import { Link } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
 import Post from "../components/Post";
 const Profile = () => {
@@ -64,6 +62,7 @@ const Profile = () => {
       {userPosts.map((post) => {
         return (
           <Post
+            key={post.post_id}
             post={post}
             refetchPosts={() => {
               console.log("refetching posts...");

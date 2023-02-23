@@ -13,4 +13,4 @@ const addCurrentlyLikedToPosts = (posts, userId) => {
   return postsWithCurrentlyLiked;
 };
 
-module.exports = addCurrentlyLikedToPosts;
+export default addCurrentlyLikedToPosts;

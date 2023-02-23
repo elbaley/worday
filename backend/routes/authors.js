@@ -1,9 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const { PrismaClient } = require("@prisma/client");
-const addCurrentlyLikedToPosts = require("../utils/addCurrentlyLikedToPosts");
-const prisma = new PrismaClient();
+import { PrismaClient } from "@prisma/client";
+import express from "express";
+import addCurrentlyLikedToPosts from "../utils/addCurrentlyLikedToPosts.js";
 
+const router = express.Router();
+const prisma = new PrismaClient();
 // all authors
 router.get("/", async (req, res) => {
   const authors = await prisma.user.findMany();
@@ -73,4 +73,4 @@ router.get("/:username/posts", async (req, res) => {
   // delete TODO
   res.json({ posts: author.posts });
 });
-module.exports = router;
+export default router;

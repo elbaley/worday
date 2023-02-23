@@ -1,17 +1,18 @@
-const express = require("express");
-const cors = require("cors");
+import { PrismaClient } from "@prisma/client";
+import bodyParser from "body-parser";
+import connectRedis from "connect-redis";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import express from "express";
+import session from "express-session";
+import Redis from "ioredis";
+import multer, { diskStorage } from "multer";
+import { COOKIE_NAME } from "./constants.js";
 const app = express();
-const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const Redis = require("ioredis");
-const session = require("express-session");
-const { COOKIE_NAME } = require("./constants");
-const RedisStore = require("connect-redis")(session);
+const RedisStore = connectRedis(session);
 const redisClient = new Redis();
-const multer = require("multer");
-const storageEngine = multer.diskStorage({
+const storageEngine = diskStorage({
   destination: "./public/uploads",
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}--${file.originalname}`);
@@ -19,9 +20,8 @@ const storageEngine = multer.diskStorage({
 });
 const upload = multer({ storage: storageEngine });
 
-const postRoutes = require("./routes/posts");
-const authorRoutes = require("./routes/authors");
-const addCurrentlyLikedToPosts = require("./utils/addCurrentlyLikedToPosts");
+import authorRoutes from "./routes/authors.js";
+import postRoutes from "./routes/posts.js";
 app.use(
   cors({
     origin: ["http://localhost:5173", "http://192.168.1.101:5173"],
@@ -47,6 +47,7 @@ app.use(
     resave: false,
   })
 );
+console.log("test");
 app.use(express.static("public"));
 
 app.use("/posts", postRoutes);

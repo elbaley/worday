@@ -1,8 +1,8 @@
-const express = require("express");
+import { PrismaClient } from "@prisma/client";
+import express from "express";
+import addCurrentlyLikedToPosts from "../utils/addCurrentlyLikedToPosts.js";
 const router = express.Router();
-const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const addCurrentlyLikedToPosts = require("../utils/addCurrentlyLikedToPosts.js");
 // list all posts
 router.get("/", async (req, res) => {
   // fetch posts from db
@@ -167,4 +167,4 @@ router.put("/like/:id", async (req, res) => {
     });
   }
 });
-module.exports = router;
+export default router;
