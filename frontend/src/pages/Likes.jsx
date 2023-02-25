@@ -14,7 +14,6 @@ const Likes = () => {
       .then((data) => {
         if (data.posts) {
           setLikedPosts(data.posts);
-          console.log(data.posts);
         }
       });
   }, []);

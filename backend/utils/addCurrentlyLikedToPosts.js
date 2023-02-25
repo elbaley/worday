@@ -2,9 +2,9 @@ const addCurrentlyLikedToPosts = (posts, userId) => {
   const postsWithCurrentlyLiked = [...posts];
   // add currentlyLiked field
   postsWithCurrentlyLiked.map((post) => {
-    const { likedBy } = post;
+    const { likes } = post;
     post.currentlyLiked = false;
-    if (likedBy.filter((like) => like.user_id === userId).length > 0) {
+    if (likes.filter((like) => like.user_id === userId).length > 0) {
       post.currentlyLiked = true;
     }
     return post;

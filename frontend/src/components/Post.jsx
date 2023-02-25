@@ -102,7 +102,7 @@ const Post = ({ post: givenPost, refetchPosts }) => {
               />
             )}
             <span className="ml-0.5 text-sm text-zinc-500">
-              {post._count?.likedBy}
+              {post._count?.likes}
             </span>
           </button>
           {user.user_id === post.authorId && (

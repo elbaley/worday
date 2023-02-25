@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
           profileImg: true,
         },
       },
-      likedBy: {
+      likes: {
         select: {
           user_id: true,
         },
@@ -26,7 +26,6 @@ router.get("/", async (req, res) => {
       _count: true,
     },
   });
-  console.log(posts);
   res.json({
     posts: addCurrentlyLikedToPosts(posts, req.session.userId),
   });
@@ -89,12 +88,10 @@ router.get("/:id", async (req, res) => {
     where: { post_id: postId },
     include: {
       author: true,
-      likedBy: {
-        take: 4,
-      },
+      likes: true,
       _count: {
         select: {
-          likedBy: true,
+          likes: true,
         },
       },
     },
@@ -119,52 +116,41 @@ router.put("/:id", async (req, res) => {
 
 router.put("/like/:id", async (req, res) => {
   const postId = parseInt(req.params.id);
-  console.log("begenmek icin gelen userId", req.session.userId);
   const userId = req.session.userId;
-  // check if the user has already liked the post
+  // check if the post has already been liked
   const post = await prisma.post.findUnique({
     where: {
       post_id: postId,
     },
-    include: {
-      likedBy: true,
+    select: {
+      likes: true,
     },
   });
-  const hasLiked = post.likedBy.some((like) => like.user_id === userId);
+  const hasLiked =
+    post.likes.filter((like) => like.user_id === userId).length > 0;
   if (hasLiked) {
-    const updatedPost = await prisma.post.update({
+    // unlike the post
+    const deletedLike = await prisma.likes.delete({
       where: {
-        post_id: postId,
-      },
-      data: {
-        likedBy: {
-          disconnect: {
-            user_id: userId,
-          },
+        post_id_user_id: {
+          user_id: userId,
+          post_id: postId,
         },
       },
     });
-    res.json({
-      msg: "post unliked!",
-      post: updatedPost,
-    });
-  } else {
-    const updatedPost = await prisma.post.update({
-      where: {
-        post_id: postId,
-      },
-      data: {
-        likedBy: {
-          connect: {
-            user_id: userId,
-          },
-        },
-      },
-    });
-    res.json({
-      msg: "post liked",
-      post: updatedPost,
-    });
+    return res.json({ msg: "unliked" });
   }
+  const like = await prisma.likes.create({
+    data: {
+      post: {
+        connect: { post_id: postId },
+      },
+      user: {
+        connect: { user_id: userId },
+      },
+      createdAt: new Date(),
+    },
+  });
+  res.json({ msg: "liked" });
 });
 export default router;

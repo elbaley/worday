@@ -21,6 +21,7 @@ router.get("/:username", async (req, res) => {
       username,
     },
     include: {
+      likes: true,
       _count: true,
     },
   });
@@ -47,10 +48,10 @@ router.get("/:username/posts", async (req, res) => {
       posts: {
         include: {
           author: true,
-          likedBy: true,
+          likes: true,
           _count: {
             select: {
-              likedBy: true,
+              likes: true,
             },
           },
         },
@@ -72,41 +73,58 @@ router.get("/:username/posts", async (req, res) => {
   res.json({ posts: author.posts });
 });
 // list of author's likes
+// Define the route to get the posts liked by a user
 router.get("/:username/likes", async (req, res) => {
   const username = req.params.username;
-  const postsLikedByAuthor = await prisma.user.findFirst({
+
+  // Find the user with the specified username
+  const user = await prisma.user.findUnique({
     where: {
-      username,
-    },
-    select: {
-      likedPosts: {
-        include: {
-          author: {
-            select: {
-              name: true,
-              username: true,
-              profileImg: true,
-            },
-          },
-          _count: true,
-          likedBy: true,
-        },
-      },
+      username: username,
     },
   });
-  if (!postsLikedByAuthor) {
+
+  // If the user is not found, return an error response
+  if (!user) {
     return res.status(400).json({
       error: {
         message: "no user found!",
       },
     });
   }
-  // add currentlyLiked field to posts
-  postsLikedByAuthor.likedPosts = addCurrentlyLikedToPosts(
-    postsLikedByAuthor.likedPosts,
-    req.session.userId
-  );
-  res.json({ posts: postsLikedByAuthor.likedPosts });
+
+  // Get the user's id from the user object
+  const { user_id } = user;
+
+  // Get all the likes made by the user, including the posts they liked
+  const likesOfUser = await prisma.likes.findMany({
+    where: {
+      user_id,
+    },
+    include: {
+      post: {
+        include: {
+          author: true,
+          likes: true,
+          _count: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc", // Order the likes by the time they were created
+    },
+  });
+
+  // Extract the posts from the likes and create an array of posts liked by the user
+  const postsLikedByUser = likesOfUser.map((like) => {
+    const { post } = like;
+    return post;
+  });
+
+  // Return the posts liked by the user, including whether the currently logged in user liked the post or not
+  res.json({
+    posts: addCurrentlyLikedToPosts(postsLikedByUser, req.session.userId),
+  });
 });
 
 export default router;
