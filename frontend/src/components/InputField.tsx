@@ -2,9 +2,9 @@ import { HTMLInputTypeAttribute } from "react";
 interface InputFieldProps {
   name: string;
   value: string;
-  onChange: (e:React.ChangeEvent<HTMLInputElement>)=> void;
-  label: boolean;
-  labelText: string;
+  onChange: (e:React.ChangeEvent<HTMLInputElement>)=> void
+  label?: boolean;
+  labelText?: string;
   type?:HTMLInputTypeAttribute
 }
 const InputField = ({

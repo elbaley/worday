@@ -7,7 +7,7 @@ import InputField from "../components/InputField";
 import ErrorMessage from "../components/ErrorMessage";
 const Login = () => {
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { user, login } = useAuth();
@@ -17,11 +17,11 @@ const Login = () => {
     }
     if (errorMessage) {
       setTimeout(() => {
-        setErrorMessage(null);
+        setErrorMessage("");
       }, 3000);
     }
   }, [user, errorMessage]);
-  const handleLoginSubmit = async (e) => {
+  const handleLoginSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -59,6 +59,7 @@ const Login = () => {
         >
           <InputField
             name={"username"}
+            type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
