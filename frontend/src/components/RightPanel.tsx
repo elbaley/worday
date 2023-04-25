@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 
-const RightPanel = () => {
-  const [popularWords, setPopularWords] = useState();
+type RightPanelProps = {
+className?:string
+}
+
+const RightPanel:FunctionComponent<RightPanelProps> = () => {
+  const [popularWords, setPopularWords] = useState<[]>();
   useEffect(() => {
     fetch("http://localhost:4001/posts/popular", { credentials: "include" })
       .then((res) => res.json())
@@ -48,7 +52,7 @@ const RightPanel = () => {
 
         <div className="my-4 flex flex-col gap-y-2">
           {popularWords &&
-            popularWords.map((word, i) => {
+            popularWords.map((word:{postContent:string}, i:number) => {
               return (
                 <span
                   key={i}

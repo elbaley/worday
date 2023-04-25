@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import { AiFillDelete, AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { usePosts } from "../context/postContext";
+import { PostType as PostType, usePosts } from "../context/postContext";
 import { useAuth } from "../hooks/useAuth";
 import dayjs from "../utils/dayjs";
 import { getImgUrl } from "../utils/getImgUrl";
 
-const Post = ({ post: givenPost, refetchPosts }) => {
+interface PostProps  {
+  post:PostType;
+  refetchPosts? : () => void
+}
+
+const Post = ({ post: givenPost, refetchPosts }:PostProps) => {
   const [post, setPost] = useState(givenPost);
   const date = dayjs(post.pubDate);
   const { fetchPosts } = usePosts();
@@ -61,7 +66,7 @@ const Post = ({ post: givenPost, refetchPosts }) => {
         className={`aspect-square h-12 select-none object-cover ${
           imgLoaded ? "" : "animate-pulse"
         } rounded-full bg-gray-700 bg-opacity-20`}
-        src={getImgUrl(post.author.profileImg)}
+        src={getImgUrl(post.author.profileImg as string)}
         alt=""
         onLoad={() => {
           setImageLoaded(true);

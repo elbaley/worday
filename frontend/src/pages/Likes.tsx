@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import PageTitle from "../components/PageTitle";
 import Post from "../components/Post";
 import { useAuth } from "../hooks/useAuth";
+import { PostType } from "../context/postContext";
 const Likes = () => {
   const { user } = useAuth();
-  const [likedPosts, setLikedPosts] = useState([]);
+  const [likedPosts, setLikedPosts] = useState<PostType[]>([]);
   console.log(user.username);
   useEffect(() => {
     fetch(`http://localhost:4001/authors/${user.username}/likes`, {

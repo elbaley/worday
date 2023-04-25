@@ -1,7 +1,7 @@
 import MenuButton from "./MenuButton";
 import ProfileMenu from "./ProfileMenu";
 import wordayLogo from "../assets/wordayLogo.svg";
-import { NavLink, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 const LeftPanel = () => {
   const navigate = useNavigate();
   return (
@@ -16,7 +16,7 @@ const LeftPanel = () => {
       <div className="flex flex-col items-start gap-y-3 pb-28">
         <MenuButton buttonName={"feed"} />
         <MenuButton buttonName={"likes"} />
-        <button className="mx-auto w-3/4 rounded-full  bg-sky-500 py-2 pl-4 pr-7 text-2xl font-bold hover:bg-sky-100  hover:bg-sky-500 hover:bg-opacity-10 hover:bg-opacity-90">
+        <button className="mx-auto w-3/4 rounded-full  bg-sky-500 py-2 pl-4 pr-7 text-2xl font-bold hover:bg-sky-500 hover:bg-opacity-90">
           share
         </button>
       </div>

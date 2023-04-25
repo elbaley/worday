@@ -2,11 +2,29 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PageTitle from "../components/PageTitle";
 import Post from "../components/Post";
+import { PostType } from "../context/postContext";
+export interface Like {
+  post_id: number;
+  user_id: number;
+  createdAt: string;
+}
+export interface User{
+  user_id:number;
+  name:string;
+  username:string;
+  birthDate:string;
+  profileImg:string;
+  likes:Like[];
+  _count: {
+    posts:number;
+    likes:number;
+  };
+}
 const Profile = () => {
   const navigate = useNavigate();
   const { username } = useParams();
-  const [user, setUser] = useState();
-  const [userPosts, setUserPosts] = useState([]);
+  const [user, setUser] = useState<User>();
+  const [userPosts, setUserPosts] = useState<PostType[]>([]);
   async function getUserDetails() {
     // fetch the user details
     fetch(`http://localhost:4001/authors/${username}`, {
@@ -45,7 +63,7 @@ const Profile = () => {
   }, []);
   return (
     <section className="">
-      <PageTitle backButton title={user?.name}>
+      <PageTitle backButton title={user!.name}>
         <span className="text-sm text-zinc-500">
           {user?._count.posts} words
         </span>

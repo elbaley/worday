@@ -7,14 +7,14 @@ import InputField from "../components/InputField";
 import ErrorMessage from "../components/ErrorMessage";
 const Register = () => {
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState("");
   const [userValues, setUserValues] = useState({
     name: "",
     username: "",
     password: "",
     birthDate: "",
   });
-  const [profileImg, setProfileImg] = useState();
+  const [profileImg, setProfileImg] = useState<File | string>("");
   const { user, login } = useAuth();
   useEffect(() => {
     if (user) {
@@ -22,11 +22,11 @@ const Register = () => {
     }
     if (errorMessage) {
       setTimeout(() => {
-        setErrorMessage(null);
+        setErrorMessage("");
       }, 3000);
     }
   }, [user, errorMessage]);
-  const handleRegisterSubmit = async (e) => {
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("profileImg", profileImg);
@@ -48,7 +48,6 @@ const Register = () => {
         }, 3000);
       }
     } catch (error) {
-      console.log("error!");
       console.log(error);
     }
   };
@@ -58,7 +57,6 @@ const Register = () => {
         <img className="" src={wordayLogo} alt="" />
         <h2 className="pb-5 text-2xl font-bold">create an account</h2>
         <form
-          // encType='multipart/form-data'
           onSubmit={handleRegisterSubmit}
           className="flex h-full flex-col gap-5"
         >
@@ -115,10 +113,13 @@ const Register = () => {
           />
           <InputField
             name={"profileImg"}
+            value={""}
             label
             labelText={"profile picture"}
             onChange={(e) => {
-              setProfileImg(e.target.files[0]);
+              if (e.target.files && e.target.files.length > 0) {
+                setProfileImg(e.target.files[0]);
+              }
             }}
             type={"file"}
           />

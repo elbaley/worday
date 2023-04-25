@@ -1,7 +1,14 @@
 import { useNavigate } from "react-router-dom";
+import {ReactNode} from "react"
+import { AiOutlineArrowLeft,  } from "react-icons/ai";
 
-import { AiOutlineArrowLeft, AiFillDelete } from "react-icons/ai";
-const PageTitle = ({ title, backButton, children }) => {
+export interface PageTitleProps  {
+  title:string;
+  backButton?: boolean;
+  children?:ReactNode
+
+}
+const PageTitle = ({ title, backButton, children }:PageTitleProps) => {
   const navigate = useNavigate();
   return (
     <section className="sticky top-0 z-10 flex items-center border-b border-y-zinc-800 bg-black bg-opacity-60 backdrop-blur-md ">

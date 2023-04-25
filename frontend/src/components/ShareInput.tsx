@@ -10,7 +10,7 @@ const ShareInput = () => {
   const handlePostSubmit = () => {
     if (!post.postContent) return;
 
-    const response = fetch("http://localhost:4001/posts", {
+   fetch("http://localhost:4001/posts", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -28,7 +28,7 @@ const ShareInput = () => {
       });
   };
   return (
-    <div className="relative my-2 flex items-center gap-3 border-b border-y-zinc-800 px-5  py-3">
+    <div className="relative my-2 flex items-center gap-3 border-b border-y-zinc-800 px-5 py-3">
       <img
         className="aspect-square h-12 rounded-full object-cover hover:opacity-80 "
         src={getImgUrl(user.profileImg)}

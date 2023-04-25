@@ -1,7 +1,8 @@
+import { ReactNode } from "react";
 import LeftPanel from "./LeftPanel";
 import RightPanel from "./RightPanel";
 
-function Layout({ children }) {
+function Layout({ children }:{children:ReactNode}) {
   return (
     <main className="container grid  sm:grid-cols-3 lg:grid-cols-4 ">
       <LeftPanel />
