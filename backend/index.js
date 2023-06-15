@@ -90,13 +90,9 @@ app.post("/login", async (req, res) => {
       },
     });
   }
-  const isPostedToday = new Date(user?.posts[0]?.pubDate).toDateString() === new Date().toDateString()
-  console.log(isPostedToday);
-  user.isPostedToday = isPostedToday
 
   // set session
   req.session.userId = user.user_id;
-  // user.isPostedToday = isPostedToday
   res.json({
     user,
   });
@@ -178,28 +174,9 @@ app.get("/me", async (req, res) => {
     where: {
       user_id: req.session.userId,
     },
-    select: {
-      posts: {
-        include: {
-          author: true,
-          likes: true,
-          _count: {
-            select: {
-              likes: true,
-            },
-          },
-        },
-        orderBy: {
-          pubDate: "desc",
-        },
-      },
-    },
-  });
-  const isPostedToday = new Date(author?.posts[0]?.pubDate).toDateString() === new Date().toDateString()
-  console.log(`⚠️ Request to :/me  by userId:${req.session.userId}`);
+ });
   res.json({
     userId: req.session.userId || null,
-    isPostedToday
   });
 });
 
