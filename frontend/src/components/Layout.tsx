@@ -4,7 +4,7 @@ import RightPanel from "./RightPanel";
 
 function Layout({ children }:{children:ReactNode}) {
   return (
-    <main className="container grid  sm:grid-cols-3 lg:grid-cols-4 ">
+    <main className="container mx-auto grid  sm:grid-cols-3 lg:grid-cols-4 ">
       <LeftPanel />
       <section className="border-x border-x-zinc-800  text-white sm:col-span-2  ">
         {children}

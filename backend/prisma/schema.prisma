@@ -29,9 +29,9 @@ model Post{
 }
 
 model Likes{
-  post Post @relation(fields:[post_id], references: [post_id])
+  post Post @relation(fields:[post_id], references: [post_id],onDelete: Cascade)
   post_id Int 
-  user User @relation(fields:[user_id], references: [user_id])
+  user User @relation(fields:[user_id], references: [user_id],onDelete: Cascade)
   user_id Int 
   createdAt DateTime @default(now())
   @@id([post_id,user_id]) 

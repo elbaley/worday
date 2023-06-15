@@ -63,7 +63,7 @@ const Profile = () => {
   }, []);
   return (
     <section className="">
-      <PageTitle backButton title={user!.name}>
+      <PageTitle backButton title={user?.name}>
         <span className="text-sm text-zinc-500">
           {user?._count.posts} words
         </span>
