@@ -70,7 +70,11 @@ app.post("/login", async (req, res) => {
     where: {
       username: username,
     },
+    include:{
+      posts:true
+    }
   });
+
   if (!user) {
     return res.json({
       error: {
@@ -86,9 +90,13 @@ app.post("/login", async (req, res) => {
       },
     });
   }
+  const isPostedToday = new Date(user?.posts[0]?.pubDate).toDateString() === new Date().toDateString()
+  console.log(isPostedToday);
+  user.isPostedToday = isPostedToday
 
   // set session
   req.session.userId = user.user_id;
+  // user.isPostedToday = isPostedToday
   res.json({
     user,
   });
@@ -166,14 +174,36 @@ app.post("/register", upload.single("profileImg"), async (req, res) => {
 });
 
 app.get("/me", async (req, res) => {
-  console.log(req.session);
+  const author = await prisma.user.findFirst({
+    where: {
+      user_id: req.session.userId,
+    },
+    select: {
+      posts: {
+        include: {
+          author: true,
+          likes: true,
+          _count: {
+            select: {
+              likes: true,
+            },
+          },
+        },
+        orderBy: {
+          pubDate: "desc",
+        },
+      },
+    },
+  });
+  const isPostedToday = new Date(author?.posts[0]?.pubDate).toDateString() === new Date().toDateString()
   console.log(`⚠️ Request to :/me  by userId:${req.session.userId}`);
   res.json({
     userId: req.session.userId || null,
+    isPostedToday
   });
 });
 
-app.post("/profile", upload.single("avatar"), function (req, res, next) {
+app.post("/profile", upload.single("avatar"), function(req, res, next) {
   // req.file is the `avatar` file
   console.log(req.file);
   // req.body will hold the text fields, if there were any

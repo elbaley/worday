@@ -7,7 +7,9 @@ export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
 
   return (
     <>
+      {/* If the user is authenticated, render the contents of the 'children' prop */}
       {user && children}
+      {/* If the user is not authenticated, redirect them to the home page */}
       {!user && <Navigate to="/" />}
     </>
   );

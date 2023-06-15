@@ -1,0 +1,9 @@
+{
+  "name":"worday",
+  "scripts": {
+    "dev": "concurrently \"cd backend && yarn start\" \"cd frontend && yarn dev\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
