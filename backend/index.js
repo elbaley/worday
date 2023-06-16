@@ -43,7 +43,7 @@ app.use(
       sameSite: "lax", // csrf
     },
     saveUninitialized: false,
-    secret: "rfsdaer-341rf3-4321e",
+    secret: "rfsdaer-341rf3-4321e", // REDIS SECRET
     resave: false,
   })
 );
@@ -170,11 +170,6 @@ app.post("/register", upload.single("profileImg"), async (req, res) => {
 });
 
 app.get("/me", async (req, res) => {
-  const author = await prisma.user.findFirst({
-    where: {
-      user_id: req.session.userId,
-    },
- });
   res.json({
     userId: req.session.userId || null,
   });
